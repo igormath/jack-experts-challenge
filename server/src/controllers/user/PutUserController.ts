@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { IUser } from "../../models/user";
+import { UserProps } from "../../models/user";
 import { PutUserService } from "../../services/user/PutUserService";
 
 class PutUserController{
     async handle(req: Request, res: Response){
         const {email} = req.params;
-        const {name, password} = req.body as IUser;
+        const {name, password} = req.body as UserProps;
 
         const userService = new PutUserService();
 

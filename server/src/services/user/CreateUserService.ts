@@ -1,9 +1,10 @@
 import prisma from "../../database";
-import { IUser } from "../../models/user";
+import { UserProps } from "../../models/user";
 import { GetUserService } from "./GetUserService";
+import bcrypt from 'bcrypt';
 
 class CreateUserService {
-    async handle({name, email, password}: IUser){
+    async handle({name, email, password}: UserProps){
         if (!name || !email || !password){
             throw new Error("Please, fill in all fields");
         }
@@ -13,12 +14,14 @@ class CreateUserService {
         if (await userExists.handle(email)){
             throw new Error("User already exists");
         }
+
+        const hashPassword = await bcrypt.hash(password, 10);
         
         const user = await prisma.user.create({
             data: {
                 name: name,
                 email: email,
-                password: password
+                password: hashPassword
             }
         })
         

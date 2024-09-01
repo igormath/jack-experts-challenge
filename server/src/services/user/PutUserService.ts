@@ -1,11 +1,14 @@
 import prisma from "../../database";
-import { IUser } from "../../models/user";
+import { UserProps } from "../../models/user";
+import bcrypt from "bcrypt";
 
 class PutUserService{
-    async handle({name, email, password}: IUser){
+    async handle({name, email, password}: UserProps){
         if (!name || !email || !password){
             throw new Error("Please, fill in all fields");
         }
+
+        const hashPassword = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.update({
             where: {
@@ -13,7 +16,7 @@ class PutUserService{
             },
             data: {
               name: name,
-              password: password,
+              password: hashPassword,
             },
         })
 
