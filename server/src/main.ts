@@ -1,7 +1,8 @@
 import Express from "express";
-import cors from 'cors';
+import cors from "cors";
 import user from "./routes/userRoutes";
 import task from "./routes/taskRoutes";
+import login from "./routes/loginRoutes";
 
 const app = Express();
 
@@ -15,5 +16,6 @@ app.use(Express.json());
 
 app.use(user);
 app.use(task);
+app.use(login);
 
 export { app };
