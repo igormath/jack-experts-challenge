@@ -3,11 +3,18 @@ import { GetUserService } from "../user/GetUserService";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import validateEmail from "../../util/emailValidate";
 
 class LoginService{
     async handle({ email, password }: LoginProps) {
         if (!email || !password){
             throw new Error("Please, fill in all fields");
+        }
+
+        const isEmailValid = validateEmail(email);
+
+        if (!isEmailValid){
+            throw new Error("Insert a valid email");
         }
 
         const userExists = new GetUserService();

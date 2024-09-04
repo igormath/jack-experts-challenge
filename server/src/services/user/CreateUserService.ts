@@ -1,5 +1,6 @@
 import prisma from "../../database";
 import { UserProps } from "../../models/user";
+import validateEmail from "../../util/emailValidate";
 import { GetUserService } from "./GetUserService";
 import bcrypt from 'bcrypt';
 
@@ -7,6 +8,12 @@ class CreateUserService {
     async handle({name, email, password}: UserProps){
         if (!name || !email || !password){
             throw new Error("Please, fill in all fields");
+        }
+
+        const isEmailValid = validateEmail(email);
+
+        if (!isEmailValid){
+            throw new Error("Insert a valid email");
         }
 
         const userExists = new GetUserService();

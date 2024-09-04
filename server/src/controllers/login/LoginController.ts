@@ -33,6 +33,10 @@ class LoginController{
                 return res.status(401).send({
                     error: error.message,
                 })
+            } else if (error.message === "Insert a valid email"){
+                return res.status(400).send({
+                    error: error.message,
+                })
             }
 
             return res.status(500).send({
