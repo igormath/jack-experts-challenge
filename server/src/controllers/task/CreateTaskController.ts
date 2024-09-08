@@ -4,12 +4,12 @@ import { TaskProps } from "../../models/task";
 
 class CreateTaskController{
     async handle(req: Request, res: Response){
-        const {description, done, authorEmail} = req.body as TaskProps;
+        const {description, done, authorEmail, title} = req.body as TaskProps;
 
         const taskService = new CreateTaskService();
 
         try{
-            const task = await taskService.handle({description, done, authorEmail});
+            const task = await taskService.handle({description, done, authorEmail, title});
 
             return res.status(201).send(task);
         }catch(error: any){
