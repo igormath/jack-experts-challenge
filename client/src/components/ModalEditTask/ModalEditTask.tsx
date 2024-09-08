@@ -11,6 +11,7 @@ interface ModalProps{
     id: number,
     description: string,
     done: boolean,
+    title: string,
     onTaskUpdated: (updatedTask: TaskProps) => void,
 }
 
@@ -18,6 +19,7 @@ const ModalEditTask = (props: ModalProps) => {
 
     const [isTaskUpdated, setIsTaskUpdated] = useState<boolean>(false);
     const [isDone, setIsDone] = useState(props.done);
+    const taskTitleInput = useRef<HTMLInputElement>(null);
     const taskDescriptionInput = useRef<HTMLInputElement>(null);
     const taskDoneInput = useRef<HTMLInputElement>(null);
 
@@ -38,10 +40,11 @@ const ModalEditTask = (props: ModalProps) => {
         }
 
         const newDescription = taskDescriptionInput.current?.value || props.description;
+        const newTitle = taskTitleInput.current?.value || props.title;
         const newDone = isDone;
 
         try{
-            const response = await putTask(props.email,  newDescription, newDone, props.id, token);
+            const response = await putTask(props.email,  newDescription, newDone, props.id, newTitle, token);
 
             if (!response.ok){
                 alert(`Houve um erro ao editar a tarefa, tente novamente. ${response.status}`)
@@ -52,6 +55,7 @@ const ModalEditTask = (props: ModalProps) => {
                     description: newDescription,
                     done: newDone,
                     authorEmail: props.email,
+                    title: newTitle,
                 })
                 setTimeout(() => {
                     setIsTaskUpdated(false);
@@ -73,6 +77,10 @@ const ModalEditTask = (props: ModalProps) => {
             <button onClick={() => props.onClose()} className="text-white text-xl place-self-end">X</button>
             <div className="py-6 bg-white px-3 rounded">
                 <form onSubmit={handleUpdateTask}>
+                <label htmlFor="task-description" className="flex flex-col">
+                        <span>Titulo:</span>
+                        <input ref={taskTitleInput} type="text" name="task-title" id="task-title" className="h-11 border-2 rounded mb-2 px-3" defaultValue={props.title} placeholder="Digite a nova descrição" required/>
+                    </label>
                     <label htmlFor="task-description" className="flex flex-col">
                         <span>Descrição:</span>
                         <input ref={taskDescriptionInput} type="text" name="task-description" id="task-description" className="h-11 border-2 rounded mb-2 px-3" defaultValue={props.description} placeholder="Digite a nova descrição" required/>
