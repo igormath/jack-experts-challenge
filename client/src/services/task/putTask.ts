@@ -1,4 +1,4 @@
-async function putTask(email: string, description: string, done: boolean, id: number, token: string){
+async function putTask(email: string, description: string, done: boolean, id: number, title: string ,token: string){
     try{
         const response = await fetch(`http://localhost:3000/task/${email}`, {
             method: 'PUT',
@@ -11,6 +11,7 @@ async function putTask(email: string, description: string, done: boolean, id: nu
                 "id": id,
                 "description": description,
                 "done": done,
+                "title": title,
             })
         });
 

@@ -1,4 +1,4 @@
-async function postTask(description: string, authorEmail:string, token: string) {
+async function postTask(description: string, authorEmail:string, title: string, token: string) {
     try {
         const response = await fetch("http://localhost:3000/task", {
             method: 'POST',
@@ -11,6 +11,7 @@ async function postTask(description: string, authorEmail:string, token: string) 
                 description: description,
                 done: false,
                 authorEmail: authorEmail,
+                title: title,
             }),
         });
         const data = await response.json();
