@@ -21,6 +21,7 @@ export default {
             'link': '#1e293b',
             'link-primary': '#2545e1',
             'link-secondary': '#5b73e5',
+            'alert': '#e22449',
           },
       extend: {
         fontFamily: {
