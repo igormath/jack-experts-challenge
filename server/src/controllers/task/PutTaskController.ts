@@ -5,12 +5,12 @@ import { PutTaskService } from "../../services/task/PutTaskService";
 class PutTaskController{
     async handle(req: Request, res: Response){
         const {email} = req.params;
-        const {id, description, done} = req.body;
+        const {id, description, done, title} = req.body;
 
         const taskService = new PutTaskService();
 
         try {
-            const task = await taskService.handle(description, done, email, Number(id));
+            const task = await taskService.handle(description, done, email, Number(id), title);
 
             return res.status(200).send(task);
         } catch (error: any) {

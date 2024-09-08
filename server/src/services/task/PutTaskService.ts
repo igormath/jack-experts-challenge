@@ -4,8 +4,8 @@ import validateEmail from "../../util/emailValidate";
 import { GetUserService } from "../user/GetUserService";
 
 class PutTaskService{
-    async handle(description: string, done: boolean, authorEmail: string, id: number){
-        if (description == null || done == null || authorEmail == null || id == null){
+    async handle(description: string, done: boolean, authorEmail: string, id: number, title: string){
+        if (description == null || done == null || authorEmail == null || id == null || title == null){
             throw new Error("Please, fill in all fields");
         }
 
@@ -40,6 +40,7 @@ class PutTaskService{
             data: {
               description: description,
               done: done,
+              title: title,
             },
         })
 
