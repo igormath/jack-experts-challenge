@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import { useRef, useState } from "react";
-import createUser from "../../services/user/createUser";
+import postUser from "../../services/user/postUser";
 
 const CreateAccount = () => {
 
@@ -9,20 +9,30 @@ const CreateAccount = () => {
     const emailInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
     const [isAccountCreated, setIsAccountCreated] = useState<boolean>(false);
+    const [isPasswordShort, setIsPasswordShort] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (nameInput.current?.value && emailInput.current?.value && passwordInput.current?.value){
-            const response = await createUser(nameInput.current.value, emailInput.current.value, passwordInput.current.value);
+            if (passwordInput.current.value.length < 6){
+                return;
+            }
+            const response = await postUser(nameInput.current.value, emailInput.current.value, passwordInput.current.value);
             if (!response.ok){
-                alert(`Houve um erro ao criar a conta, tente novamente! ${response.data.error}`);
+                alert(`Houve um erro ao criar a conta, tente novamente. ${response.data.error}`);
             } else {
                 setIsAccountCreated(true);
                 setTimeout(() => {
                     navigate("/")
                 }, 3000);
             }
+        }
+    }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.id === "user-password"){
+            setIsPasswordShort(e.target.value.length < 6);
         }
     }
 
@@ -37,7 +47,8 @@ const CreateAccount = () => {
                 <label htmlFor="user-email" className="add__label">Digite seu email:</label>
                 <input ref={emailInput} type="email" id="user-email" className="h-11 border-2 rounded text-gray-100 mb-4 px-3" name="user-email" placeholder="Seu email" required/>
                 <label htmlFor="user-password" className="add__label">Crie uma senha:</label>
-                <input ref={passwordInput} type="password" id="user-password" className="h-11 border-2 rounded text-gray-100 mb-4 px-3" name="user-password" placeholder="Sua senha" required/>
+                <input ref={passwordInput} onChange={handleInputChange} type="password" id="user-password" className="h-11 border-2 rounded text-gray-100 mb-1 px-3" name="user-password" placeholder="Sua senha" required/>
+                {isPasswordShort && <p className="text-left text-alert mb-4 pl-2">A senha deve possuir mais que 6 caracteres</p>}
                 <button type="submit" className="h-11 rounded bg-slate-800 my-2 hover:bg-slate-700 text-primary text-center">Criar conta</button>
                 {isAccountCreated && <p className="text-center mt-3">Conta criada com sucesso! Você será redirecionado para a tela de login...</p>}
             </form>
