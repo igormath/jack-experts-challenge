@@ -12,6 +12,7 @@ export interface TaskProps {
     description: string,
     done: boolean,
     authorEmail: string,
+    title: string,
 }
 
 const Home = () => {
@@ -22,6 +23,7 @@ const Home = () => {
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [isTaskCreated, setIsTaskCreated] = useState<boolean>(false);
     const taskDescriptionInput = useRef<HTMLInputElement>(null);
+    const taskTitleInput = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -72,8 +74,8 @@ const Home = () => {
             alert("Falha ao autenticar o usuário. Saia da conta e tente novamente.");
             return;
         }
-        if (taskDescriptionInput.current?.value){
-            const response = await postTask(taskDescriptionInput.current.value, email, token);
+        if (taskDescriptionInput.current?.value && taskTitleInput.current?.value){
+            const response = await postTask(taskDescriptionInput.current.value, email, taskTitleInput.current.value, token);
             if (!response.ok){
                 alert(`Houve um erro ao criar a tarefa, tente novamente. ${response.data.error}`);
             } else {
@@ -115,6 +117,10 @@ const Home = () => {
             <h2 className="m-4 text-xl my-4 font-medium md:text-center">Bem-vindo, {name}.</h2>
             <p className="text-lg mt-10 mb-6 text-center">Crie novas tarefas: </p>
             <form onSubmit={handleSubmit} id="task-create" className="flex flex-col w-10/12 mt-5 mx-auto lg:w-1/2 lg:mx-auto lg:border-2 lg:border-slate-500 lg:rounded-md lg:p-5 2xl:w-1/3">
+            <label htmlFor="new-task" className="flex flex-col">
+                    <span>Título da tarefa:</span>
+                    <input ref={taskTitleInput} type="text" id="task-title" className="h-11 border-2 rounded mb-4 px-3" name="task-title" placeholder="Título da tarefa" required/>
+                </label>
                 <label htmlFor="new-task" className="flex flex-col">
                     <span>Descreva a tarefa:</span>
                     <input ref={taskDescriptionInput} type="text" id="task-description" className="h-11 border-2 rounded mb-4 px-3" name="task-description" placeholder="Descrição da tarefa" required/>
@@ -131,6 +137,7 @@ const Home = () => {
                     authorEmail={task.authorEmail}
                     id={task.id}
                     done={task.done}
+                    title={task.title}
                     onTaskDeleted={() => handleTaskDelete(task.id)}
                     onTaskUpdated={handleTaskUpdate}
                     >
