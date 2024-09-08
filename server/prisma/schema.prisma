@@ -27,4 +27,5 @@ model Task {
     done Boolean
     author User @relation(fields: [authorEmail], references: [email])
     authorEmail String
+    title String
 }
