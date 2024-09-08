@@ -6,6 +6,7 @@ Esta é a minha solução para o teste Jack Experts
 
 - [Visão Geral](#visão-geral)
   - [O teste](#o-teste)
+  - [Capturas de tela](#capturas-de-tela)
 - [Meu processo](#meu-processo)
   - [Ferramentas utilizadas](#ferramentas-utilizadas)
   - [Como rodar](#como-rodar)
@@ -29,6 +30,15 @@ Usuários devem poder:
 	- Marcar tarefas como concluídas. 
 	- Editar o título e a descrição de uma tarefa. Excluir uma tarefa.
 - **Interface de Usuário.** A interface deve ser intuitiva e responsiva. Implementar a interface utilizando React. Utilizar hooks do React para gerenciar estado e efeitos colaterais.
+
+### Capturas de tela
+
+Algumas capturas de tela da aplicação em funcionamento mostrando a responsividade nas telas de login e tela principal:
+
+![Login versão mobile](https://i.imgur.com/gBlSyzv.png)
+![Login versão desktop](https://i.imgur.com/52GQWo8.png)
+![Página principal versão mobile](https://i.imgur.com/759iuyx.png)
+![Página principal versão desktop](https://i.imgur.com/acBeui7.png)
 
 ## Meu processo
 
