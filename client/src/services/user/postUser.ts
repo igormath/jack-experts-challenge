@@ -1,4 +1,4 @@
-async function createUser(name: string, email:string, password: string) {
+async function postUser(name: string, email:string, password: string) {
     try {
         const response = await fetch("http://localhost:3000/user", {
             method: 'POST',
@@ -28,4 +28,4 @@ async function createUser(name: string, email:string, password: string) {
     }
 }
 
-export default createUser;
+export default postUser;
