@@ -2,5 +2,6 @@ export interface TaskProps{
     description: string,
     done: boolean,
     authorEmail: string,
-    id?: number
+    id?: number,
+    title: string,
 }
